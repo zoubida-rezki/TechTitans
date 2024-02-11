@@ -55,6 +55,24 @@ export default function AdminProjectView({formData,setFormData,handleSaveData,da
             />
             <button onClick={()=>handleSaveData('project')} className="mt-[10px] border border-green-600 p-4 font-bold text-[16-px]">Add Info</button>
         </div>
+        <div className="flex justify-center items-center h-200">
+            <div className="w-4/5 p-4 bg-gray-200">
+                <div className="grid grid-cols-4 gap-5">
+                    <div className="bg-gray-300 p-2">From</div>
+                    <div className="bg-gray-300 p-2">To</div>
+                    <div className="bg-gray-300 p-2">Cost</div>
+                    <div className="bg-gray-300 p-2">Time and Date</div>
+                    <div className="bg-gray-100 p-2">Houston, Texas</div>
+                    <div className="bg-gray-100 p-2">Paris, France</div>
+                    <div className="bg-gray-100 p-2">$40</div>
+                    <div className="bg-gray-100 p-2">11:30 1/25</div>
+                    <div className="bg-gray-100 p-2">Houston, Texas</div>
+                    <div className="bg-gray-100 p-2">Paris, France</div>
+                    <div className="bg-gray-100 p-2">$45</div>
+                    <div className="bg-gray-100 p-2">11:30 1/26</div>
+                </div>
+            </div>
+        </div>
     </div>
     );
 }
