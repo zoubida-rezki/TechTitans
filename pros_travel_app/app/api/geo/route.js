@@ -36,7 +36,7 @@ async function getNearbyPlaces(locationOrAddress, radius, type) {
         resultString += `${place.vicinity}\n`;
         // resultString += `Place Location: ${JSON.stringify(place.geometry.location)}\n`;
         // resultString += '---\n';
-        console.log(resultString)
+        //console.log(resultString)
         StringArr.push(resultString)
       });
 

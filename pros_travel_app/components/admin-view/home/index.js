@@ -62,10 +62,16 @@ const figureoutflightdetail = async (myPrompt) => {
       myPrompt
     })
   }
-  const res = await fetch('/api/openAI', options);
-  const { data }= await res.json();
-
-  return data;
+  try {
+    const res = await fetch('/api/openAI', options);
+    const { data } = await res.json();
+    
+    
+      return data;
+    
+  } catch (error) {
+    return "There was an error with your request. If you didnt, please include Date in your request for both departure and return. If it is one way trip, please specifiy in your request for a one way flight";
+  }
 }
 
 export default function AdminHomeView({ formData, setFormData }) {
