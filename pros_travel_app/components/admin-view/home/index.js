@@ -70,7 +70,7 @@ const figureoutflightdetail = async (myPrompt) => {
       return data;
     
   } catch (error) {
-    return "There was an error with your request. If you didnt, please include Date in your request for both departure and return. If it is one way trip, please specifiy in your request for a one way flight";
+    return "There was an error with your request. If you didnt, please include Date in your request for both departure and return. If it is one way trip, please specifiy in your request that it is one way, and only include departing date";
   }
 }
 

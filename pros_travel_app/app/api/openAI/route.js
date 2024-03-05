@@ -94,7 +94,7 @@ const conversation = [{
 const question = myPrompt;
 
 const apiUrl = 'https://api.openai.com/v1/chat/completions';
-const apiKey = 'process.env.OPEN_AI';
+const apiKey = 'enter here';
 
 const callOpenAI = async () => {
     const responseFlight = await axios.post(apiUrl, {
@@ -137,17 +137,23 @@ const jsonString = JSON.stringify(jsonObject);
 
 // Parse the JSON string to create a JSON object
 answer = JSON.parse(jsonString);
-console.log(answer);
+
 var amadeus = new Amadeus({
-    clientId: 'process.env.clientId',
-    clientSecret: 'process.env.clientSecret'
+    clientId: 'enter Here',
+    clientSecret: 'enter here'
 });
 
 const departureDate = convertDateFormat(answer.DateofDeparture);
 if (answer.FlightReturn === "No") {
+console.log("----------------");
+console.log("----------------");
+console.log("----------------");
+console.log("----------------");
+console.log("----------------");
 
 
     const response = await amadeus.shopping.flightOffersSearch.get({
+        
         originLocationCode: answer.StartingLocation,
         destinationLocationCode: answer.EndingLocation,
         departureDate: departureDate,
@@ -155,27 +161,69 @@ if (answer.FlightReturn === "No") {
         children: answer.NumberOfChilder,
         infants: answer.NumberOfToddler
     });
-
+    let x = 0;
     let filteredFlights = response.data.filter(flight => {
         // Check if the flight is one-way
         return flight.oneWay === true;
     })
 
+    
     if (response.data[0].price.grandTotal) {
-        flightDetails.push("cost for Flight: " + response.data[0].price.grandTotal);
+        
+        flightDetails.push("cost for Flight: " + (response.data[0].price.grandTotal));
     }
+
+    console.log("hello");
     for (var i = 0; i < response.data[0].itineraries[0].segments.length; i++) {
 
-        if (i != 0)
-            flightDetails.push("You have an extra Flight: ");
+        if (i != 0){
+           flightDetails.push("You have an extra Flight: ");
+   }
         flightDetails.push("next flight on your trip is from : " + response.data[0].itineraries[0].segments[i].departure.iataCode + " to " + response.data[0].itineraries[0].segments[i].arrival.iataCode);
         flightDetails.push("departing flight number: ");
         flightDetails.push(response.data[0].itineraries[0].segments[i].carrierCode + " " + response.data[0].itineraries[0].segments[i].number);
         flightDetails.push("Time of departure ");
         flightDetails.push(response.data[0].itineraries[0].segments[i].departure.at);
-    }
-
+   }
     const flightDetailsString = flightDetails.join('  ');
+     
+
+
+  var conversation1 = [
+        {'role':'system','content':' You are a travel agaent who has to quikcly tell their clients about their flights. you are giving flight information. Put it into a complete sentnce. do not include year and time it will fly. Keep short. ignore the return flight part as these are not return flights'},
+        {'role':'user', 'content':'You have an extra Flight:   next flight on your trip is from : MUC to MIA  departing flight number:   LH 460  Time of departure   2024-02-15T11:35:00 Baggage NumberOfAdult NumberOfChilder NumberOfToddler.'},
+        {'role':'assistant','content':'Hello, your flight will cost 1091.50 USD. Your first flight will be from BKK to MUC on 02-14 , on flight LH 773. Then, fly from MUC to MIA on 02-15, on flight LH 460. Please include carrying baggage, Number of Adults, Children, Toddlers for more accuracy'},
+        {'role':'user', 'content':'cost for Flight: 756.68  next flight on your trip is from : CDG to PEK  departing flight number:   CA 934  Time of departure   2024-02-17T19:30:00  You have an extra Flight:   next flight on your trip is from : PEK to HND  departing flight number:   CA 181  Time of departure   2024-02-19T08:20:00  Baggage NumberOfAdult NumberOfChilder NumberOfToddler'},
+        {'role':'assistant','content':'Hello, your flight will cost 756.68 USD. First departure from CDG to PEK on 02-17, on flight CA 934. Next, fly from PEK to HND on 02-19, on flight CA 181. Please include Baggage, number of adults, children, infants for more accuracy'}
+        
+    ];
+        
+
+
+    var question1 = flightDetails + "      " + answer.StartingLocation + " " + answer.EndingLocation + "  " + answer.NotIncluded;
+
+    const responseUser = await axios.post(apiUrl, {
+        model: 'gpt-3.5-turbo',
+        max_tokens: 400,
+        temperature: 0.0,
+        messages: conversation1.concat({
+            role: 'assistant',
+            content: question1
+        })
+    }, {
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    })
+
+    if (responseUser.data.choices && responseUser.data.choices.length > 0) {
+        const answer = responseUser.data.choices[0].message.content;
+        return answer;
+    } else {
+        console.log("put correct information");
+    }
+    
 
 } else {
 
@@ -220,6 +268,7 @@ if (answer.FlightReturn === "No") {
             flightDetails.push(response.data[0].itineraries[1].segments[i].departure.at);
         
         const flightDetailsString = flightDetails.join('  ');
+        
     }
 
     var conversation1 = [
