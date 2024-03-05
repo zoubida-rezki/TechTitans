@@ -167,8 +167,8 @@ if (answer.FlightReturn === "No") {
     }
     for (var i = 0; i < response.data[0].itineraries[0].segments.length; i++) {
 
-        if (i != 0)
-            flightDetails.push("You have an extra Flight: ");
+        if (i != 0){
+            flightDetails.push("You have an extra Flight: ");}
         flightDetails.push("next flight on your trip is from : " + response.data[0].itineraries[0].segments[i].departure.iataCode + " to " + response.data[0].itineraries[0].segments[i].arrival.iataCode);
         flightDetails.push("departing flight number: ");
         flightDetails.push(response.data[0].itineraries[0].segments[i].carrierCode + " " + response.data[0].itineraries[0].segments[i].number);
@@ -210,13 +210,13 @@ if (answer.FlightReturn === "No") {
 
     for (var i = 0; i < response.data[0].itineraries[1].segments.length; i++) {
         if (i != 0) {
-            flightDetails.push("You have an extra Flight: ");
+            flightDetails.push("You have an extra Flight: ");}
             flightDetails.push("Next flight on your trip is from : " + response.data[0].itineraries[0].segments[i].departure.iataCode + " to " + response.data[0].itineraries[0].segments[i].arrival.iataCode);
             flightDetails.push("returning flight number : ");
             flightDetails.push(response.data[0].itineraries[1].segments[i].carrierCode + " " + response.data[0].itineraries[1].segments[i].number);
             flightDetails.push("Time of departure ");
             flightDetails.push(response.data[0].itineraries[1].segments[i].departure.at);
-        }
+        
         const flightDetailsString = flightDetails.join('  ');
     }
 
